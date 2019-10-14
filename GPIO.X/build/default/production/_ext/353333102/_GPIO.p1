@@ -1,0 +1,109 @@
+Version 3.2 HI-TECH Software Intermediate Code
+[; ;types.h: 23: typedef unsigned int uint16;
+[; ;types.h: 24: typedef unsigned char uint8;
+[; ;types.h: 25: typedef char sint8;
+"35 /home/aabdul-mageed/Documents/Impulses/Embedded Section/Software/PIC_LIBs/GPIO.X/GPIO_CONFIG.h
+[v _pinNums `uc ~T0 @X0 + -> 4 `i -> 1 `i e ]
+[i _pinNums
+:U ..
+-> -> 7 `i `uc
+-> -> 8 `i `uc
+-> -> 7 `i `uc
+-> -> 8 `i `uc
+-> -> 4 `i `uc
+..
+]
+[; ;GPIO_CONFIG.h: 35: uint8 pinNums[4 + 1] = {7,8,7,8,4};
+[; ;_GPIO.h: 32: void _pinMode(uint8 port, uint8 pin, uint8 state);
+[; ;_GPIO.h: 33: void _digitalWrite(uint8 port, uint8 pin, uint8 state);
+[; ;_GPIO.h: 34: uint8 _digitalRead(uint8 port, uint8 pin);
+"4 /home/aabdul-mageed/Documents/Impulses/Embedded Section/Software/PIC_LIBs/GPIO.X/_GPIO.c
+[v __pinMode `(v ~T0 @X0 1 ef3`uc`uc`uc ]
+{
+[; ;_GPIO.c: 4: void _pinMode(uint8 port, uint8 pin, uint8 state){
+[e :U __pinMode ]
+[v _port `uc ~T0 @X0 1 r1 ]
+[v _pin `uc ~T0 @X0 1 r2 ]
+[v _state `uc ~T0 @X0 1 r3 ]
+[f ]
+[; ;_GPIO.c: 5: if(state == 1){
+"5
+[e $ ! == -> _state `i -> 1 `i 2  ]
+{
+[; ;_GPIO.c: 6: (*((unsigned char*)(0xF92 + port)) = (*((unsigned char*)(0xF92 + port))) | (1<<pin));
+"6
+[e = *U -> + -> 3986 `i -> _port `i `*uc -> | -> *U -> + -> 3986 `i -> _port `i `*uc `i << -> 1 `i _pin `uc ]
+"7
+}
+[; ;_GPIO.c: 7: }
+[e $U 3  ]
+"8
+[e :U 2 ]
+[; ;_GPIO.c: 8: else if(state == 0){
+[e $ ! == -> _state `i -> 0 `i 4  ]
+{
+[; ;_GPIO.c: 9: (*((unsigned char*)(0xF92 + port)) = (*((unsigned char*)(0xF92 + port))) &~ (1<<pin));
+"9
+[e = *U -> + -> 3986 `i -> _port `i `*uc -> & -> *U -> + -> 3986 `i -> _port `i `*uc `i ~ << -> 1 `i _pin `uc ]
+"10
+}
+[e :U 4 ]
+"11
+[e :U 3 ]
+[; ;_GPIO.c: 10: }
+[; ;_GPIO.c: 11: }
+[e :UE 1 ]
+}
+"12
+[v __digitalWrite `(v ~T0 @X0 1 ef3`uc`uc`uc ]
+{
+[; ;_GPIO.c: 12: void _digitalWrite(uint8 port, uint8 pin, uint8 state){
+[e :U __digitalWrite ]
+[v _port `uc ~T0 @X0 1 r1 ]
+[v _pin `uc ~T0 @X0 1 r2 ]
+[v _state `uc ~T0 @X0 1 r3 ]
+[f ]
+[; ;_GPIO.c: 13: if(state == 1){
+"13
+[e $ ! == -> _state `i -> 1 `i 6  ]
+{
+[; ;_GPIO.c: 14: (*((unsigned char*)(0xF89 + port)) = (*((unsigned char*)(0xF89 + port))) | (1<<pin));
+"14
+[e = *U -> + -> 3977 `i -> _port `i `*uc -> | -> *U -> + -> 3977 `i -> _port `i `*uc `i << -> 1 `i _pin `uc ]
+"15
+}
+[; ;_GPIO.c: 15: }
+[e $U 7  ]
+"16
+[e :U 6 ]
+[; ;_GPIO.c: 16: else if(state == 0){
+[e $ ! == -> _state `i -> 0 `i 8  ]
+{
+[; ;_GPIO.c: 17: (*((unsigned char*)(0xF89 + port)) = (*((unsigned char*)(0xF89 + port))) &~ (1<<pin));
+"17
+[e = *U -> + -> 3977 `i -> _port `i `*uc -> & -> *U -> + -> 3977 `i -> _port `i `*uc `i ~ << -> 1 `i _pin `uc ]
+"18
+}
+[e :U 8 ]
+"19
+[e :U 7 ]
+[; ;_GPIO.c: 18: }
+[; ;_GPIO.c: 19: }
+[e :UE 5 ]
+}
+"20
+[v __digitalRead `(uc ~T0 @X0 1 ef2`uc`uc ]
+{
+[; ;_GPIO.c: 20: uint8 _digitalRead(uint8 port, uint8 pin){
+[e :U __digitalRead ]
+[v _port `uc ~T0 @X0 1 r1 ]
+[v _pin `uc ~T0 @X0 1 r2 ]
+[f ]
+[; ;_GPIO.c: 21: return (((*((unsigned char*)(0xF80 + port))) & (1<<pin)) > 0);
+"21
+[e ) -> -> > & -> *U -> + -> 3968 `i -> _port `i `*uc `i << -> 1 `i _pin -> 0 `i `i `uc ]
+[e $UE 9  ]
+[; ;_GPIO.c: 22: }
+"22
+[e :UE 9 ]
+}

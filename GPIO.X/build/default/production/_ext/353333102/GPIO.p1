@@ -1,0 +1,215 @@
+Version 3.2 HI-TECH Software Intermediate Code
+"19 /home/aabdul-mageed/Documents/Impulses/Embedded Section/Software/PIC_LIBs/GPIO.X/GPIO_PIN.h
+[s S1 :3 `uc 1 :3 `uc 1 :1 `uc 1 :1 `uc 1 :3 `uc 1 ]
+[n S1 pin PORT pinNum MODE STATE ERROR ]
+"32 /home/aabdul-mageed/Documents/Impulses/Embedded Section/Software/PIC_LIBs/GPIO.X/_GPIO.h
+[v __pinMode `(v ~T0 @X0 0 ef3`uc`uc`uc ]
+"33
+[v __digitalWrite `(v ~T0 @X0 0 ef3`uc`uc`uc ]
+"34
+[v __digitalRead `(uc ~T0 @X0 0 ef2`uc`uc ]
+[; ;types.h: 23: typedef unsigned int uint16;
+[; ;types.h: 24: typedef unsigned char uint8;
+[; ;types.h: 25: typedef char sint8;
+"25 /home/aabdul-mageed/Documents/Impulses/Embedded Section/Software/PIC_LIBs/GPIO.X/configurations.h
+[p x FOSC=HS ]
+"35 /home/aabdul-mageed/Documents/Impulses/Embedded Section/Software/PIC_LIBs/GPIO.X/GPIO_CONFIG.h
+[v _pinNums `uc ~T0 @X0 + -> 4 `i -> 1 `i e ]
+[i _pinNums
+:U ..
+-> -> 7 `i `uc
+-> -> 8 `i `uc
+-> -> 7 `i `uc
+-> -> 8 `i `uc
+-> -> 4 `i `uc
+..
+]
+[; ;GPIO_CONFIG.h: 35: uint8 pinNums[4 + 1] = {7,8,7,8,4};
+[; ;_GPIO.h: 32: void _pinMode(uint8 port, uint8 pin, uint8 state);
+[; ;_GPIO.h: 33: void _digitalWrite(uint8 port, uint8 pin, uint8 state);
+[; ;_GPIO.h: 34: uint8 _digitalRead(uint8 port, uint8 pin);
+[; ;GPIO_PIN.h: 19: typedef struct pin{
+[; ;GPIO_PIN.h: 20: uint8 PORT:3;
+[; ;GPIO_PIN.h: 21: uint8 pinNum:3;
+[; ;GPIO_PIN.h: 22: uint8 MODE:1;
+[; ;GPIO_PIN.h: 23: uint8 STATE:1;
+[; ;GPIO_PIN.h: 24: uint8 ERROR:3;
+[; ;GPIO_PIN.h: 25: }Pin;
+[; ;GPIO_FUNs.h: 57: void pinInit(Pin *P_PIN, uint8 PORT, uint8 pinNum);
+[; ;GPIO_FUNs.h: 58: void pinMode(Pin *P_PIN, uint8 MODE);
+[; ;GPIO_FUNs.h: 59: void digitalWrite(Pin *P_PIN, uint8 STATE);
+[; ;GPIO_FUNs.h: 60: void digitalRead(Pin *P_PIN);
+"6 /home/aabdul-mageed/Documents/Impulses/Embedded Section/Software/PIC_LIBs/GPIO.X/GPIO.c
+[v _pinInit `(v ~T0 @X0 1 ef3`*S1`uc`uc ]
+{
+[; ;GPIO.c: 6: void pinInit(Pin *P_PIN, uint8 PORT, uint8 pinNum){
+[e :U _pinInit ]
+[v _P_PIN `*S1 ~T0 @X0 1 r1 ]
+[v _PORT `uc ~T0 @X0 1 r2 ]
+[v _pinNum `uc ~T0 @X0 1 r3 ]
+[f ]
+[; ;GPIO.c: 7: if(PORT >= 0 && PORT <= 4){
+"7
+[e $ ! && >= -> _PORT `i -> 0 `i <= -> _PORT `i -> 4 `i 3  ]
+{
+[; ;GPIO.c: 8: P_PIN->PORT = PORT;
+"8
+[e = . *U _P_PIN 0 _PORT ]
+[; ;GPIO.c: 9: P_PIN->ERROR = 1;
+"9
+[e = . *U _P_PIN 4 -> -> 1 `i `uc ]
+"10
+}
+[; ;GPIO.c: 10: }
+[e $U 4  ]
+"11
+[e :U 3 ]
+[; ;GPIO.c: 11: else{
+{
+[; ;GPIO.c: 12: P_PIN->ERROR = 0;
+"12
+[e = . *U _P_PIN 4 -> -> 0 `i `uc ]
+[; ;GPIO.c: 13: return;
+"13
+[e $UE 2  ]
+"14
+}
+[e :U 4 ]
+[; ;GPIO.c: 14: }
+[; ;GPIO.c: 15: if(pinNum >= 0 && pinNum <= pinNums[PORT]){
+"15
+[e $ ! && >= -> _pinNum `i -> 0 `i <= -> _pinNum `i -> *U + &U _pinNums * -> _PORT `ux -> -> # *U &U _pinNums `ui `ux `i 5  ]
+{
+[; ;GPIO.c: 16: P_PIN->pinNum = pinNum;
+"16
+[e = . *U _P_PIN 1 _pinNum ]
+[; ;GPIO.c: 17: P_PIN->ERROR = 1;
+"17
+[e = . *U _P_PIN 4 -> -> 1 `i `uc ]
+"18
+}
+[; ;GPIO.c: 18: }
+[e $U 6  ]
+"19
+[e :U 5 ]
+[; ;GPIO.c: 19: else{
+{
+[; ;GPIO.c: 20: P_PIN->ERROR = 2;
+"20
+[e = . *U _P_PIN 4 -> -> 2 `i `uc ]
+[; ;GPIO.c: 21: return;
+"21
+[e $UE 2  ]
+"22
+}
+[e :U 6 ]
+[; ;GPIO.c: 22: }
+[; ;GPIO.c: 23: }
+"23
+[e :UE 2 ]
+}
+"25
+[v _pinMode `(v ~T0 @X0 1 ef2`*S1`uc ]
+{
+[; ;GPIO.c: 25: void pinMode(Pin *P_PIN, uint8 MODE){
+[e :U _pinMode ]
+[v _P_PIN `*S1 ~T0 @X0 1 r1 ]
+[v _MODE `uc ~T0 @X0 1 r2 ]
+[f ]
+[; ;GPIO.c: 26: if(MODE == 1 || MODE == 0){
+"26
+[e $ ! || == -> _MODE `i -> 1 `i == -> _MODE `i -> 0 `i 8  ]
+{
+[; ;GPIO.c: 27: P_PIN->MODE = MODE;
+"27
+[e = . *U _P_PIN 2 _MODE ]
+[; ;GPIO.c: 28: P_PIN->ERROR = 1;
+"28
+[e = . *U _P_PIN 4 -> -> 1 `i `uc ]
+[; ;GPIO.c: 29: _pinMode(P_PIN->PORT, P_PIN->pinNum, P_PIN->MODE);
+"29
+[e ( __pinMode (3 , , . *U _P_PIN 0 . *U _P_PIN 1 . *U _P_PIN 2 ]
+"30
+}
+[; ;GPIO.c: 30: }
+[e $U 9  ]
+"31
+[e :U 8 ]
+[; ;GPIO.c: 31: else{
+{
+[; ;GPIO.c: 32: P_PIN->ERROR = 4;
+"32
+[e = . *U _P_PIN 4 -> -> 4 `i `uc ]
+"33
+}
+[e :U 9 ]
+[; ;GPIO.c: 33: }
+[; ;GPIO.c: 34: if((P_PIN->PORT == 0) || (P_PIN->PORT == 1) || (P_PIN->PORT == 4)){
+"34
+[e $ ! || || == -> . *U _P_PIN 0 `i -> 0 `i == -> . *U _P_PIN 0 `i -> 1 `i == -> . *U _P_PIN 0 `i -> 4 `i 10  ]
+{
+[; ;GPIO.c: 35: (*(unsigned char*)0xFC1) = 0b00000000;
+"35
+[e = *U -> -> 4033 `i `*uc -> -> 0 `i `uc ]
+"36
+}
+[e :U 10 ]
+[; ;GPIO.c: 36: }
+[; ;GPIO.c: 37: }
+"37
+[e :UE 7 ]
+}
+"39
+[v _digitalWrite `(v ~T0 @X0 1 ef2`*S1`uc ]
+{
+[; ;GPIO.c: 39: void digitalWrite(Pin *P_PIN, uint8 STATE){
+[e :U _digitalWrite ]
+[v _P_PIN `*S1 ~T0 @X0 1 r1 ]
+[v _STATE `uc ~T0 @X0 1 r2 ]
+[f ]
+[; ;GPIO.c: 40: if(STATE == 1 || STATE == 0){
+"40
+[e $ ! || == -> _STATE `i -> 1 `i == -> _STATE `i -> 0 `i 12  ]
+{
+[; ;GPIO.c: 41: P_PIN->STATE = STATE;
+"41
+[e = . *U _P_PIN 3 _STATE ]
+[; ;GPIO.c: 42: P_PIN->ERROR = 1;
+"42
+[e = . *U _P_PIN 4 -> -> 1 `i `uc ]
+[; ;GPIO.c: 43: _digitalWrite(P_PIN->PORT, P_PIN->pinNum, STATE);
+"43
+[e ( __digitalWrite (3 , , . *U _P_PIN 0 . *U _P_PIN 1 _STATE ]
+"44
+}
+[; ;GPIO.c: 44: }
+[e $U 13  ]
+"45
+[e :U 12 ]
+[; ;GPIO.c: 45: else{
+{
+[; ;GPIO.c: 46: P_PIN->ERROR = 4;
+"46
+[e = . *U _P_PIN 4 -> -> 4 `i `uc ]
+"47
+}
+[e :U 13 ]
+[; ;GPIO.c: 47: }
+[; ;GPIO.c: 48: }
+"48
+[e :UE 11 ]
+}
+"50
+[v _digitalRead `(v ~T0 @X0 1 ef1`*S1 ]
+{
+[; ;GPIO.c: 50: void digitalRead(Pin *P_PIN){
+[e :U _digitalRead ]
+[v _P_PIN `*S1 ~T0 @X0 1 r1 ]
+[f ]
+[; ;GPIO.c: 51: P_PIN->STATE = _digitalRead(P_PIN->PORT, P_PIN->pinNum);
+"51
+[e = . *U _P_PIN 3 ( __digitalRead (2 , . *U _P_PIN 0 . *U _P_PIN 1 ]
+[; ;GPIO.c: 52: }
+"52
+[e :UE 14 ]
+}

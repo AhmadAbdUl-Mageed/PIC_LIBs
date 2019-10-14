@@ -1,0 +1,37 @@
+
+# 1 "/home/aabdul-mageed/Documents/Impulses/Embedded Section/Software/PIC_LIBs/GPIO.X/_GPIO.c"
+
+# 23 "/home/aabdul-mageed/Documents/Impulses/Embedded Section/Software/PIC_LIBs/GPIO.X/types.h"
+typedef unsigned int uint16;
+typedef unsigned char uint8;
+typedef char sint8;
+
+# 35 "/home/aabdul-mageed/Documents/Impulses/Embedded Section/Software/PIC_LIBs/GPIO.X/GPIO_CONFIG.h"
+uint8 pinNums[4 + 1] = {7,8,7,8,4};
+
+# 32 "/home/aabdul-mageed/Documents/Impulses/Embedded Section/Software/PIC_LIBs/GPIO.X/_GPIO.h"
+void _pinMode(uint8 port, uint8 pin, uint8 state);
+void _digitalWrite(uint8 port, uint8 pin, uint8 state);
+uint8 _digitalRead(uint8 port, uint8 pin);
+
+# 4 "/home/aabdul-mageed/Documents/Impulses/Embedded Section/Software/PIC_LIBs/GPIO.X/_GPIO.c"
+void _pinMode(uint8 port, uint8 pin, uint8 state){
+if(state == 1){
+(*((unsigned char*)(0xF92 + port)) = (*((unsigned char*)(0xF92 + port))) | (1<<pin));
+}
+else if(state == 0){
+(*((unsigned char*)(0xF92 + port)) = (*((unsigned char*)(0xF92 + port))) &~ (1<<pin));
+}
+}
+void _digitalWrite(uint8 port, uint8 pin, uint8 state){
+if(state == 1){
+(*((unsigned char*)(0xF89 + port)) = (*((unsigned char*)(0xF89 + port))) | (1<<pin));
+}
+else if(state == 0){
+(*((unsigned char*)(0xF89 + port)) = (*((unsigned char*)(0xF89 + port))) &~ (1<<pin));
+}
+}
+uint8 _digitalRead(uint8 port, uint8 pin){
+return (((*((unsigned char*)(0xF80 + port))) & (1<<pin)) > 0);
+}
+

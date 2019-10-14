@@ -1,0 +1,84 @@
+
+# 1 "/home/aabdul-mageed/Documents/Impulses/Embedded Section/Software/PIC_LIBs/GPIO.X/GPIO.c"
+
+# 23 "/home/aabdul-mageed/Documents/Impulses/Embedded Section/Software/PIC_LIBs/GPIO.X/types.h"
+typedef unsigned int uint16;
+typedef unsigned char uint8;
+typedef char sint8;
+
+
+# 25 "/home/aabdul-mageed/Documents/Impulses/Embedded Section/Software/PIC_LIBs/GPIO.X/configurations.h"
+#pragma config FOSC = HS
+
+# 35 "/home/aabdul-mageed/Documents/Impulses/Embedded Section/Software/PIC_LIBs/GPIO.X/GPIO_CONFIG.h"
+uint8 pinNums[4 + 1] = {7,8,7,8,4};
+
+# 32 "/home/aabdul-mageed/Documents/Impulses/Embedded Section/Software/PIC_LIBs/GPIO.X/_GPIO.h"
+void _pinMode(uint8 port, uint8 pin, uint8 state);
+void _digitalWrite(uint8 port, uint8 pin, uint8 state);
+uint8 _digitalRead(uint8 port, uint8 pin);
+
+# 19 "/home/aabdul-mageed/Documents/Impulses/Embedded Section/Software/PIC_LIBs/GPIO.X/GPIO_PIN.h"
+typedef struct pin{
+uint8 PORT:3;
+uint8 pinNum:3;
+uint8 MODE:1;
+uint8 STATE:1;
+uint8 ERROR:3;
+}Pin;
+
+# 57 "/home/aabdul-mageed/Documents/Impulses/Embedded Section/Software/PIC_LIBs/GPIO.X/GPIO_FUNs.h"
+void pinInit(Pin *P_PIN, uint8 PORT, uint8 pinNum);
+void pinMode(Pin *P_PIN, uint8 MODE);
+void digitalWrite(Pin *P_PIN, uint8 STATE);
+void digitalRead(Pin *P_PIN);
+
+# 6 "/home/aabdul-mageed/Documents/Impulses/Embedded Section/Software/PIC_LIBs/GPIO.X/GPIO.c"
+void pinInit(Pin *P_PIN, uint8 PORT, uint8 pinNum){
+if(PORT >= 0 && PORT <= 4){
+P_PIN->PORT = PORT;
+P_PIN->ERROR = 1;
+}
+else{
+P_PIN->ERROR = 0;
+return;
+}
+if(pinNum >= 0 && pinNum <= pinNums[PORT]){
+P_PIN->pinNum = pinNum;
+P_PIN->ERROR = 1;
+}
+else{
+P_PIN->ERROR = 2;
+return;
+}
+}
+
+void pinMode(Pin *P_PIN, uint8 MODE){
+if(MODE == 1 || MODE == 0){
+P_PIN->MODE = MODE;
+P_PIN->ERROR = 1;
+_pinMode(P_PIN->PORT, P_PIN->pinNum, P_PIN->MODE);
+}
+else{
+P_PIN->ERROR = 4;
+}
+if((P_PIN->PORT == 0) || (P_PIN->PORT == 1) || (P_PIN->PORT == 4)){
+(*(unsigned char*)0xFC1) = 0b00000000;
+}
+}
+
+void digitalWrite(Pin *P_PIN, uint8 STATE){
+if(STATE == 1 || STATE == 0){
+P_PIN->STATE = STATE;
+P_PIN->ERROR = 1;
+_digitalWrite(P_PIN->PORT, P_PIN->pinNum, STATE);
+}
+else{
+P_PIN->ERROR = 4;
+}
+}
+
+void digitalRead(Pin *P_PIN){
+P_PIN->STATE = _digitalRead(P_PIN->PORT, P_PIN->pinNum);
+}
+
